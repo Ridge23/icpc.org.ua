@@ -32,6 +32,21 @@
                 </div>
                 <div class="form-group">
                     <div class="col-lg-offset-1 col-lg-10">
+                        <select class="form-control" name="userStatus" >
+                            <option><?=\yii::t('app', 'User status')?></option>
+                            <option value="student"><?=\yii::t('app', 'Student')?></option>
+                            <option value="teacher"><?=\yii::t('app', 'Teacher')?></option>
+                        </select>
+                    </div>
+                </div>
+                
+                <?php $this->widget('common.ext.recaptcha.EReCaptcha', 
+                   array('model'=>$user, 'attribute'=>'validation',
+                         'theme'=>'red', 'language'=>'en_EN', 
+                         'publicKey'=>\yii::app()->params['recaptcha']['public_key'])) ?>
+                
+                <div class="form-group">
+                    <div class="col-lg-offset-1 col-lg-10">
                         <button type="submit" class="btn btn-primary"><?=\yii::t('app', 'Sign up')?></button>
                     </div>
                 </div>

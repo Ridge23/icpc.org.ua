@@ -88,15 +88,17 @@ class AuthController extends \web\ext\Controller
         $email          = $this->request->getPost('email');
         $password       = $this->request->getPost('password');
         $passwordRepeat = $this->request->getPost('passwordRepeat');
+        $userRole       = $this->request->getPost('userStatus');
 
         // Register a new teacher
         $errors = array();
+        $user = new User();
         if ($this->request->isPostRequest) {
-            $user = new User();
             $user->setAttributes(array(
                 'firstName' => $firstName,
                 'lastName'  => $lastName,
                 'email'     => $email,
+                'role'      => $userRole,
             ), false);
             $user->validate();
             $user->setPassword($password, $passwordRepeat);
@@ -120,6 +122,7 @@ class AuthController extends \web\ext\Controller
             'password'          => $password,
             'passwordRepeat'    => $passwordRepeat,
             'errors'            => $errors,
+            'user'              => $user,
         ));
     }
 

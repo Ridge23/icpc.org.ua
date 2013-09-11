@@ -51,6 +51,12 @@ class User extends \common\ext\MongoDb\Document
      * @var int
      */
     public $dateCreated;
+    
+    /**
+     * Var for captcha validation
+     * @var type 
+     */
+    public $validation;
 
     /**
      * Returns the attribute labels.
@@ -79,11 +85,15 @@ class User extends \common\ext\MongoDb\Document
      */
     public function rules()
     {
+        $reCaptchakey = \yii::app()->params['recaptcha']['private_key'];
         return array_merge(parent::rules(), array(
             array('firstName, lastName, email, role, dateCreated', 'required'),
             array('email', 'email'),
             array('email', 'unique'),
             array('firstName, lastName', 'length', 'max' => 100),
+            array('validation', 
+               'common.ext.recaptcha.EReCaptchaValidator', 
+               'privateKey'=> $reCaptchakey),
         ));
     }
 
