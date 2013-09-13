@@ -1,4 +1,4 @@
-<div class="col-lg-offset-4 col-lg-4">
+<div class="col-lg-offset-4 col-lg-5">
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title"><?=\yii::t('app', 'Signup')?></h3>
@@ -32,18 +32,27 @@
                 </div>
                 <div class="form-group">
                     <div class="col-lg-offset-1 col-lg-10">
-                        <select class="form-control" name="userStatus" >
-                            <option><?=\yii::t('app', 'User status')?></option>
-                            <option value="student"><?=\yii::t('app', 'Student')?></option>
-                            <option value="teacher"><?=\yii::t('app', 'Teacher')?></option>
+                        <select class="form-control" name="userRole" >
+                            <option value=""><?=\yii::t('app', 'User status')?></option>
+                            <option value="student" <?php if($userRole == 'student') print 'selected'; ?> ><?=\yii::t('app', 'Student')?></option>
+                            <option value="teacher" <?php if($userRole == 'teacher') print 'selected'; ?>><?=\yii::t('app', 'Teacher')?></option>
                         </select>
                     </div>
                 </div>
-                
-                <?php $this->widget('common.ext.recaptcha.EReCaptcha', 
-                   array('model'=>$user, 'attribute'=>'validation',
-                         'theme'=>'red', 'language'=>'en_EN', 
-                         'publicKey'=>\yii::app()->params['recaptcha']['public_key'])) ?>
+                <div class="form-group">
+                    <div class="col-lg-offset-1 col-lg-10">
+                    <?php 
+                        $this->widget('common.ext.recaptcha.EReCaptcha', 
+                            array('model'=>$user, 'attribute'=>'validation',
+                            'theme'=>'red', 'language'=>'en_EN', 
+                            'publicKey'=>\yii::app()->params['recaptcha']['public_key'])) ?>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-offset-1 col-lg-10">
+                       <input type="checkbox" name="rulesAgree" value="1" <?php if(!empty($rulesAgree)) print 'checked'; ?> /> - <?=\yii::t('app', 'I agree with rules of the service')?>
+                    </div>
+                </div>
                 
                 <div class="form-group">
                     <div class="col-lg-offset-1 col-lg-10">

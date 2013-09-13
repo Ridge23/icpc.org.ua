@@ -57,6 +57,12 @@ class User extends \common\ext\MongoDb\Document
      * @var type 
      */
     public $validation;
+    
+    /**
+     * Var for validaton of user agreement
+     * @var type 
+     */
+    public $rulesAgree;
 
     /**
      * Returns the attribute labels.
@@ -87,7 +93,7 @@ class User extends \common\ext\MongoDb\Document
     {
         $reCaptchakey = \yii::app()->params['recaptcha']['private_key'];
         return array_merge(parent::rules(), array(
-            array('firstName, lastName, email, role, dateCreated', 'required'),
+            array('firstName, lastName, email, role, dateCreated, rulesAgree', 'required'),
             array('email', 'email'),
             array('email', 'unique'),
             array('firstName, lastName', 'length', 'max' => 100),
@@ -97,8 +103,8 @@ class User extends \common\ext\MongoDb\Document
         ));
     }
 
-	/**
-	 * This returns the name of the collection for this class
+    /**
+     * This returns the name of the collection for this class
      *
      * @return string
 	 */

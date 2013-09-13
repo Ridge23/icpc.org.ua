@@ -88,22 +88,27 @@ class AuthController extends \web\ext\Controller
         $email          = $this->request->getPost('email');
         $password       = $this->request->getPost('password');
         $passwordRepeat = $this->request->getPost('passwordRepeat');
-        $userRole       = $this->request->getPost('userStatus');
+        $userRole       = $this->request->getPost('userRole');
+        $rulesAgree     = $this->request->getPost('rulesAgree');
 
         // Register a new teacher
         $errors = array();
         $user = new User();
         if ($this->request->isPostRequest) {
             $user->setAttributes(array(
-                'firstName' => $firstName,
-                'lastName'  => $lastName,
-                'email'     => $email,
-                'role'      => $userRole,
+                'firstName'  => $firstName,
+                'lastName'   => $lastName,
+                'email'      => $email,
+                'role'       => $userRole,
+                'rulesAgree' => $rulesAgree
             ), false);
             $user->validate();
+
+            //  User attribute must not be pasten to db, but need validation. So drop it before saving.
+            $user->rulesAgree = NULL;
             $user->setPassword($password, $passwordRepeat);
             if (!$user->hasErrors()) {
-                $user->save();
+                $user->save(false);
                 $identity = new \web\ext\UserIdentity($email, $password);
                 $identity->authenticate();
                 \yii::app()->user->allowAutoLogin = true;
@@ -121,6 +126,8 @@ class AuthController extends \web\ext\Controller
             'email'             => $email,
             'password'          => $password,
             'passwordRepeat'    => $passwordRepeat,
+            'userRole'          => $userRole,
+            'rulesAgree'        => $rulesAgree,
             'errors'            => $errors,
             'user'              => $user,
         ));
